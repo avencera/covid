@@ -1,0 +1,92 @@
+<div class="container mx-auto pt-4">
+  <div class="flex mb-12">
+    <div class="w-full">
+      <h1 class="px-2 text-center text-4xl sm:px-0">
+        Total Deaths
+      </h1>
+    </div>
+  </div>
+
+  <div class="flex mb-6">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        Canada
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart" data-cases="<%=  Jason.encode!(%{"Canada": @cases["Canada"]}) %>"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex mb-6 mt-16">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        Italy
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart" data-cases="<%=  Jason.encode!(%{"Italy": @cases["Italy"]}) %>"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex mb-6 mt-16">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        US
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart" data-cases="<%=  Jason.encode!(%{"US": @cases["US"]}) %>"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex mb-6 mt-16">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        Republic of Korea
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart"
+             data-cases="<%=  Jason.encode!(%{"Republic of Korea": @cases["Republic of Korea"]}) %>">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="flex mb-6 mt-16">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        Comparison
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart" data-cases="<%=  Jason.encode!(@cases) %>"></div>
+      </div>
+    </div>
+
+  </div>

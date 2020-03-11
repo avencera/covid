@@ -15,8 +15,9 @@ defmodule CovidWeb.Router do
 
   scope "/", CovidWeb do
     pipe_through [:browser]
-    get "/", PageController, :current
-    get "/predictions", PageController, :future
+    get "/", PageController, :confirmed
+    get "/recovered", PageController, :recovered
+    get "/deaths", PageController, :deaths
   end
 
   if Mix.env() == :dev do

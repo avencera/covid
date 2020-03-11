@@ -1,10 +1,22 @@
 defmodule Covid.Database do
   alias Covid.Database.Query
-  alias Covid.Database.Confirmed
+  alias Covid.Database.{Confirmed, Recovered, Deaths}
 
   def total_confirmed_by_countries(countries) do
     countries
     |> Enum.map(fn country -> {country, total_confirmed_by(country: country)} end)
+    |> Map.new()
+  end
+
+  def total_recovered_by_countries(countries) do
+    countries
+    |> Enum.map(fn country -> {country, total_recovered_by(country: country)} end)
+    |> Map.new()
+  end
+
+  def total_deaths_by_countries(countries) do
+    countries
+    |> Enum.map(fn country -> {country, total_deaths_by(country: country)} end)
     |> Map.new()
   end
 
@@ -19,4 +31,7 @@ defmodule Covid.Database do
     |> Enum.with_index()
     |> Enum.map(fn {{_d, v}, i} -> {i, v} end)
   end
+
+  def total_recovered_by(getter), do: Query.total_by(Recovered, getter)
+  def total_deaths_by(getter), do: Query.total_by(Deaths, getter)
 end

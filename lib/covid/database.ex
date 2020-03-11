@@ -13,4 +13,10 @@ defmodule Covid.Database do
   def total_confirmed_by(getter), do: Query.total_by(Confirmed, getter)
 
   def dump_confirmed(), do: Query.dump(Confirmed)
+
+  def convert_dates_to_days(results) do
+    results
+    |> Enum.with_index()
+    |> Enum.map(fn {{_d, v}, i} -> {i, v} end)
+  end
 end

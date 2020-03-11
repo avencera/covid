@@ -2,7 +2,7 @@
   <div class="flex mb-12">
     <div class="w-full">
       <h1 class="px-2 text-center text-4xl sm:px-0">
-        Tracking Corona
+        Current Data
       </h1>
     </div>
   </div>

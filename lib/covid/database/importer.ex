@@ -1,5 +1,6 @@
 defmodule Covid.Database.Importer do
-  alias Covid.Entry
+  alias Covid.Database.Entry
+
   NimbleCSV.define(CSV, separator: ",", escape: "\"")
 
   @spec import(String.t()) :: [Entry.t()]

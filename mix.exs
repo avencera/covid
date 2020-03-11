@@ -8,6 +8,7 @@ defmodule Covid.MixProject do
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      releases: releases(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -18,6 +19,15 @@ defmodule Covid.MixProject do
     [
       mod: {Covid.Application, []},
       extra_applications: [:logger, :runtime_tools]
+    ]
+  end
+
+  def releases() do
+    [
+      covid: [
+        include_executables_for: [:unix],
+        applications: [runtime_tools: :permanent]
+      ]
     ]
   end
 

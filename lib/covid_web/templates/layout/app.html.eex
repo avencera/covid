@@ -12,13 +12,13 @@
 
   <body class="bg-gray-100 text-gray-900">
     <div class="bg-gray-100 min-h-screen">
-      <nav x-data="{ open: false }" class="bg-white shadow-sm">
+      <nav x-data="{ open: false }" class="bg-gray-700 shadow-sm">
         <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div class="flex justify-between h-16">
             <div class="flex">
-              <div class="hidden sm:flex">
+              <div class="hidden py-3 sm:flex">
                 <a href="/"
-                   class="border-indigo-500 border-b-2 inline-flex items-center font-medium leading-5 px-1 pt-1 text-gray-900 text-sm transition ease-in-out duration-150 focus:outline-none focus:border-indigo-700">
+                   class="bg-gray-900 rounded-md font-medium py-2 px-3 text-white text-sm focus:outline-none focus:text-white focus:bg-gray-700">
                   Charts
                 </a>
               </div>

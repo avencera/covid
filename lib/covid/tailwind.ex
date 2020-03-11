@@ -113,4 +113,11 @@ defmodule Covid.Tailwind do
       }
     }
   end
+
+  def random_color_group() do
+    colors()
+    |> Map.keys()
+    |> Enum.shuffle()
+    |> List.first()
+  end
 end

@@ -1,5 +1,5 @@
-defmodule Covid.Entry do
-  alias Covid.Entry
+defmodule Covid.Database.Entry do
+  alias Covid.Database.Entry
 
   defstruct [:date, :state, :country, :lat, :long, :cases]
 

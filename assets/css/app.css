@@ -4,3 +4,7 @@
 @import "./global";
 @import "animate.css";
 @import "tailwindcss/utilities";
+
+.recharts-legend-item-text {
+  @apply mr-2 pl-1;
+}

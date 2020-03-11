@@ -23,7 +23,7 @@ defmodule Covid.Database.Query do
 
       {date, total_cases}
     end)
-    |> Map.new()
+    |> Enum.sort_by(fn {d, _v} -> {d.year, d.month, d.day} end)
   end
 
   def dump(db) do

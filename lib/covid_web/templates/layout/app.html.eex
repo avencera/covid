@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tracking Corona - COVID-19 Data Visualization</title>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
   </head>
 
@@ -18,7 +19,7 @@
               <div class="hidden sm:flex">
                 <a href="/"
                    class="border-indigo-500 border-b-2 inline-flex items-center font-medium leading-5 px-1 pt-1 text-gray-900 text-sm transition ease-in-out duration-150 focus:outline-none focus:border-indigo-700">
-                  Home
+                  Charts
                 </a>
               </div>
             </div>

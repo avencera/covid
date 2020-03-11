@@ -6,9 +6,9 @@ import "phoenix_html";
 
 import Chart from "./chart";
 
-const chartElement = document.getElementById("chart");
-if (chartElement && chartElement.dataset["cases"]) {
-  const data = JSON.parse(chartElement.dataset["cases"]);
+const chartElements = Array.from(document.getElementsByClassName("chart"));
 
-  ReactDOM.render(<Chart data={data}></Chart>, chartElement);
-}
+chartElements.forEach(element => {
+  const data = JSON.parse(element.dataset["cases"]);
+  ReactDOM.render(<Chart data={data}></Chart>, element);
+});

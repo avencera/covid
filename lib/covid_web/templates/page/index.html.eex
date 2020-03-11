@@ -1,9 +1,16 @@
 <div class="container mx-auto pt-4">
+  <div class="flex mb-12">
+    <div class="w-full">
+      <h1 class="px-2 text-center text-4xl sm:px-0">
+        Tracking Corona
+      </h1>
+    </div>
+  </div>
 
   <div class="flex mb-6">
     <div class="w-full">
-      <h1 class="text-3xl">
-        Tracking Corona in Canada
+      <h1 class="px-2 text-2xl sm:px-0">
+        Canada
       </h1>
     </div>
   </div>
@@ -11,9 +18,24 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div id="chart" data-cases="<%=  Jason.encode!(@cases) %>"></div>
+        <div class="chart" data-cases="<%=  Jason.encode!(%{"Canada": @cases["Canada"]}) %>"></div>
       </div>
     </div>
   </div>
 
-</div>
+  <div class="flex mb-6 mt-16">
+    <div class="w-full">
+      <h1 class="px-2 text-2xl sm:px-0">
+        Comparsion
+      </h1>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
+    <div class="flex py-10">
+      <div class="w-full">
+        <div class="chart" data-cases="<%=  Jason.encode!(@cases) %>"></div>
+      </div>
+    </div>
+
+  </div>

@@ -46,9 +46,8 @@ FROM node:10 AS asset-builder
 RUN mkdir /app
 WORKDIR /app
 
-# install latest version of yarn and bs-platform
+# install latest version of yarn 
 RUN npm i -g yarn --force
-RUN npm install -g bs-platform --unsafe-perm
 
 COPY --from=deps-getter /app/assets /app/assets
 COPY --from=deps-getter /app/priv /app/priv
@@ -58,18 +57,15 @@ COPY --from=deps-getter /app/deps /app/deps
 COPY assets/package.json /app/assets/package.json
 COPY assets/yarn.lock /app/assets/yarn.lock
 RUN cd /app/assets && \
-    yarn install && \
-    npm link bs-platform
+    yarn install
 
 # assets -- copy asset files so purgecss doesnt remove css files
-COPY lib/covid_web/covids/ /app/lib/covid_web/covids/
+COPY lib/covid_web/templates/ /app/lib/covid_web/templates/
 COPY lib/covid_web/views/ /app/lib/covid_web/views/
 
 # assets -- build assets
 COPY assets /app/assets
-RUN cd /app/assets && bsb -make-world -clean-world
 RUN cd /app/assets && yarn deploy  
-
 
 ################################################################################
 # STEP 3 - RELEASE BUILDER

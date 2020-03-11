@@ -44,6 +44,9 @@ defmodule Covid.MixProject do
       # mailing
       {:bamboo, "~> 1.4"},
 
+      # csv
+      {:nimble_csv, "~> 0.6"},
+
       # phoenix helpers
       {:phoenix_html_simplified_helpers, "~> 2.1"},
       {:gettext, "~> 0.11"},
@@ -57,10 +60,6 @@ defmodule Covid.MixProject do
   end
 
   defp aliases do
-    [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
-    ]
+    []
   end
 end

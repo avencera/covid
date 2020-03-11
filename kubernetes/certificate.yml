@@ -1,0 +1,14 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: trackingcorona.ca
+  namespace: trackingcorona
+spec:
+  secretName: trackingcorona-ca-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: "*.trackingcorona.ca"
+  dnsNames:
+    - trackingcorona.ca
+    - "*.trackingcorona.ca"

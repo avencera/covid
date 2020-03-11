@@ -15,25 +15,43 @@ defmodule Covid.Database.Server do
 
   @impl true
   def init(name) do
-    :ets.new(name, [:set, :named_table, :public, read_concurrency: true])
-
-    seed()
+    Enum.each(dbs(), fn %{module: module, file: file} ->
+      :ets.new(module, [:set, :named_table, :public, read_concurrency: true])
+      seed(module, file)
+    end)
 
     {:ok, name}
   end
 
-  def seed() do
-    Enum.map(Covid.Database.Importer.import(), fn {date, entry} ->
-      :ets.insert(@name, {date, entry})
-    end)
+  defp seed(module, file) do
+    file
+    |> Covid.Database.Importer.import()
+    |> Enum.map(fn {date, entry} -> :ets.insert(module, {date, entry}) end)
   end
 
-  def get(date) do
-    [{_k, v} | _] = :ets.lookup(@name, date)
+  def get(date, db) do
+    [{_k, v} | _] = :ets.lookup(db, date)
     v
   end
 
-  def dump() do
-    :ets.tab2list(@name)
+  def dump(db) do
+    :ets.tab2list(db)
+  end
+
+  def dbs() do
+    [
+      %{
+        module: Covid.Database.Confirmed,
+        file: Application.app_dir(:covid, "priv/data/time_series_confirmed.csv")
+      },
+      %{
+        module: Covid.Database.Recovered,
+        file: Application.app_dir(:covid, "priv/data/time_series_recovered.csv")
+      },
+      %{
+        module: Covid.Database.Deaths,
+        file: Application.app_dir(:covid, "priv/data/time_series_deaths.csv")
+      }
+    ]
   end
 end

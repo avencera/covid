@@ -1,32 +1,10 @@
 defmodule Covid.Database do
-  alias Covid.Database.Server
+  alias Covid.Database.Query
+  alias Covid.Database.Confirmed
 
-  def get(date: date) do
-    Server.get(date)
-  end
+  def get_confirmed(getter), do: Query.get(Confirmed, getter)
 
-  def get(country: country) do
-    dump()
-    |> Enum.filter(fn entry -> entry.country == country end)
-  end
+  def total_confirmed_by(getter), do: Query.total_by(Confirmed, getter)
 
-  def total_by(country: country) do
-    get(country: country)
-    |> Enum.group_by(fn entry -> entry.date end)
-    |> Enum.map(fn {date, cases} ->
-      total_cases =
-        cases
-        |> Enum.map(fn entry -> entry.cases end)
-        |> Enum.sum()
-
-      {date, total_cases}
-    end)
-    |> Map.new()
-  end
-
-  def dump() do
-    Server.dump()
-    |> Enum.map(fn {_day, values} -> values end)
-    |> List.flatten()
-  end
+  def dump_confirmed(), do: Query.dump(Confirmed)
 end

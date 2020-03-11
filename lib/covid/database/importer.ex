@@ -2,9 +2,9 @@ defmodule Covid.Database.Importer do
   alias Covid.Entry
   NimbleCSV.define(CSV, separator: ",", escape: "\"")
 
-  @spec import(String.t() | nil) :: [Entry.t()]
-  def import(file_path \\ nil) do
-    file_path = file_path || Application.app_dir(:covid, "priv/data/time_series.csv")
+  @spec import(String.t()) :: [Entry.t()]
+  def import(file_path) do
+    file_path = file_path
 
     stream =
       file_path

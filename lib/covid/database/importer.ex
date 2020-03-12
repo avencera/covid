@@ -39,15 +39,22 @@ defmodule Covid.Database.Importer do
     counts
     |> Enum.with_index()
     |> Enum.map(fn {count, index} ->
-      %Entry{
-        date: Map.get(days, index),
-        cases: count |> String.trim() |> String.to_integer(),
-        state: state,
-        country: country,
-        lat: lat,
-        long: long
-      }
+      case count |> String.trim() |> Integer.parse() do
+        {cases, ""} ->
+          %Entry{
+            date: Map.get(days, index),
+            cases: cases,
+            state: state,
+            country: country,
+            lat: lat,
+            long: long
+          }
+
+        _ ->
+          nil
+      end
     end)
+    |> Enum.reject(&is_nil/1)
   end
 
   defp parse_date(date) do

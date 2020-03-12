@@ -18,7 +18,7 @@ defmodule Covid.Predict do
 
     factors
     |> LearnKit.Regression.Polynomial.new(results)
-    |> LearnKit.Regression.Polynomial.fit(degree: 3)
+    |> LearnKit.Regression.Polynomial.fit(degree: 4)
   end
 
   @spec score(Polynomial.t()) :: {:ok, float} | :error

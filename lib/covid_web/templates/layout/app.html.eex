@@ -12,7 +12,7 @@
 
   <body class="bg-gray-100 text-gray-900">
     <div class="bg-gray-100 min-h-screen">
-      <nav x-data="{ open: false }" class="bg-gray-700 shadow-sm">
+      <nav x-data="{ open: false }" class="bg-gray-800 shadow-sm">
         <div class="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div class="flex justify-between h-16">
             <div class="flex">
@@ -33,6 +33,7 @@
                   <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden"
                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M6 18L18 6M6 6l12 12" />
+
                 </svg>
               </button>
             </div>
@@ -41,9 +42,10 @@
         </div>
 
         <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
-          <div class="pt-2 pb-3">
-            <a href="/"
-               class="border-indigo-500 border-l-4 block font-medium py-2 pl-3 pr-4 text-indigo-700 text-base transition ease-in-out duration-150 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700">Home</a>
+          <div class="px-2 pt-2 pb-3 sm:px-3">
+            <%= link "Confirmed", to: Routes.page_path(@conn, :confirmed), class: "#{active(@conn, Routes.page_path(@conn, :confirmed), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
+            <%= link "Recovered", to: Routes.page_path(@conn, :recovered), class: "#{active(@conn, Routes.page_path(@conn, :recovered), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
+            <%= link "Deaths", to: Routes.page_path(@conn, :deaths), class: "#{active(@conn, Routes.page_path(@conn, :deaths), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
           </div>
         </div>
       </nav>

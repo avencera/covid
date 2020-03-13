@@ -115,15 +115,18 @@ RUN mkdir -p /opt/built &&\
 
 ################################################################################
 ## STEP 4 - FINAL
-FROM alpine:3.11.3
+FROM python:3.8.1-alpine3.11
 
 ENV MIX_ENV=prod
 
 RUN apk update && \
     apk add --no-cache \
+    py3-scipy \ 
     bash \
     openssl-dev
 
 COPY --from=release-builder /opt/built /app
 WORKDIR /app
+
+ENV PYTHONPATH=/usr/lib/python3.8/site-packages
 CMD ["/app/covid/bin/covid", "start"]

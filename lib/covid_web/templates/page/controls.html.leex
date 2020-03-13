@@ -1,0 +1,37 @@
+<div class="flex flex-wrap justify-end w-full z-20">
+  <div class="">
+    <span class="rounded-md mr-4 shadow-sm">
+      <button type="button"
+              phx-click="weighted_exponential"
+              class="<%= active(:weighted_exponential, @model_type) %>">
+        Weighted Exponential
+      </button>
+    </span>
+
+    <span class="rounded-md mr-4 shadow-sm">
+      <button type="button"
+              phx-click="exponential"
+              class="<%= active(:exponential, @model_type) %>">
+        Exponential
+      </button>
+    </span>
+
+    <span class="rounded-md mr-4 shadow-sm">
+      <button type="button"
+              phx-click="polynomial"
+              class="<%= active(:polynomial, @model_type) %>">
+        Polynomial
+      </button>
+    </span>
+
+    <span class="rounded-md mr-4 shadow-sm">
+      <button type="button"
+              phx-click="none"
+              class="<%= active(:none, @model_type) %>">
+        None
+      </button>
+    </span>
+
+  </div>
+
+</div>

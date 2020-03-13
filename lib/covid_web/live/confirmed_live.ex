@@ -1,6 +1,7 @@
 defmodule CovidWeb.ConfirmedLive do
   use Phoenix.LiveView
-  alias Covid.{Format, Database, Predict}
+  alias Covid.{Format, Database}
+  alias Covid.Predict.Cache, as: Predict
 
   def render(assigns) do
     Phoenix.View.render(CovidWeb.PageView, "confirmed.html", assigns)
@@ -92,6 +93,15 @@ defmodule CovidWeb.ConfirmedLive do
       socket
       |> assign(:modeled_cases, modeled_cases)
       |> assign(:model_type, :polynomial)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("none", _arg, socket) do
+    socket =
+      socket
+      |> assign(:modeled_cases, nil)
+      |> assign(:model_type, :none)
 
     {:noreply, socket}
   end

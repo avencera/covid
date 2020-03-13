@@ -9,42 +9,14 @@
   </div>
 
 
-
   <div class="flex mb-6 mt-10">
-    <div class="w-full">
+    <div class="w-1/3">
       <h1 class="px-2 text-2xl sm:px-0">
         Canada
       </h1>
     </div>
 
-    <div class="flex flex-wrap justify-end w-full z-20">
-      <div class="">
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="weighted_exponential"
-                  class="<%= active(:weighted_exponential, @model_type) %>">
-            Weighted Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="exponential"
-                  class="<%= active(:exponential, @model_type) %>">
-            Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="polynomial"
-                  class="<%= active(:polynomial, @model_type) %>">
-            Polynomial
-          </button>
-        </span>
-      </div>
-
-    </div>
+    <%= render("controls.html", model_type: @model_type) %>
   </div>
 
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
@@ -57,41 +29,13 @@
 
   <div class="flex mb-6 mt-16">
 
-    <div class="w-full">
+    <div class="w-1/3">
       <h1 class="px-2 text-2xl sm:px-0">
         Italy
       </h1>
     </div>
 
-    <div class="flex flex-wrap justify-end w-full z-20">
-      <div class="">
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="weighted_exponential"
-                  class="<%= active(:weighted_exponential, @model_type) %>">
-            Weighted Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="exponential"
-                  class="<%= active(:exponential, @model_type) %>">
-            Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="polynomial"
-                  class="<%= active(:polynomial, @model_type) %>">
-            Polynomial
-          </button>
-        </span>
-      </div>
-    </div>
-
-
+    <%= render("controls.html", model_type: @model_type) %>
   </div>
 
 
@@ -104,39 +48,13 @@
   </div>
 
   <div class="flex mb-6 mt-16">
-    <div class="w-full">
+    <div class="w-1/3">
       <h1 class="px-2 text-2xl sm:px-0">
         US
       </h1>
     </div>
 
-    <div class="flex flex-wrap justify-end w-full z-20">
-      <div class="">
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="weighted_exponential"
-                  class="<%= active(:weighted_exponential, @model_type) %>">
-            Weighted Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="exponential"
-                  class="<%= active(:exponential, @model_type) %>">
-            Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="polynomial"
-                  class="<%= active(:polynomial, @model_type) %>">
-            Polynomial
-          </button>
-        </span>
-      </div>
-    </div>
+    <%= render("controls.html", model_type: @model_type) %>
   </div>
 
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
@@ -148,39 +66,13 @@
   </div>
 
   <div class="flex mb-6 mt-16">
-    <div class="w-full">
+    <div class="w-1/3">
       <h1 class="px-2 text-2xl sm:px-0">
         South Korea
       </h1>
     </div>
 
-    <div class="flex flex-wrap justify-end w-full z-20">
-      <div class="">
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="weighted_exponential"
-                  class="<%= active(:weighted_exponential, @model_type) %>">
-            Weighted Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="exponential"
-                  class="<%= active(:exponential, @model_type) %>">
-            Exponential
-          </button>
-        </span>
-
-        <span class="rounded-md mr-4 shadow-sm">
-          <button type="button"
-                  phx-click="polynomial"
-                  class="<%= active(:polynomial, @model_type) %>">
-            Polynomial
-          </button>
-        </span>
-      </div>
-    </div>
+    <%= render("controls.html", model_type: @model_type) %>
   </div>
 
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">

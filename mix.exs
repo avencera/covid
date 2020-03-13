@@ -69,6 +69,9 @@ defmodule Covid.MixProject do
       {:statistics, "~> 0.6.2"},
       {:learn_kit, "~> 0.1.6"},
 
+      # cache
+      {:con_cache, "~> 0.13"},
+
       # release
       {:libcluster, "~> 3.1"}
     ]

@@ -4,7 +4,8 @@ defmodule Covid.Application do
   def start(_type, _args) do
     children = [
       CovidWeb.Endpoint,
-      Covid.Database.Server
+      Covid.Database.Server,
+      Covid.CacheSupervisor
     ]
 
     opts = [strategy: :one_for_one, name: Covid.Supervisor]

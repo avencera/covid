@@ -5,7 +5,6 @@ import {
   Legend,
   YAxis,
   ResponsiveContainer,
-  ZAxis,
   Line,
   CartesianGrid,
   Tooltip,
@@ -66,7 +65,7 @@ const Chart = ({ cases, predictions }) => {
             dataKey="predicted_cases"
             data={data[country]}
             strokeDasharray="5 5"
-            stroke={`#${predictions[country][0].color}`}
+            stroke={`#${predictions[country]?.[0]?.color}`}
             name={`Predicted Cases`}
             dot={false}
             activeDot={false}

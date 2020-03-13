@@ -65,7 +65,7 @@ defmodule Covid.MixProject do
       {:phoenix_live_view, "~> 0.8.0"},
 
       # math
-      {:learn_kit, "~> 0.1.6"},
+      {:statistics, "~> 0.6.2"},
 
       # release
       {:libcluster, "~> 3.1"}

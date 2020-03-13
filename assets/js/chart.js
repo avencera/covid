@@ -15,7 +15,7 @@ const mergeCasesAndPredictions = (cases, predictions, country) => {
   return { [country]: cases[country].concat(predictions[country]) };
 };
 
-const Chart = ({ cases, predictions }) => {
+const Chart = ({ cases, predictions, countries_with_colors, dates }) => {
   const countries = Object.keys(cases);
 
   const data =
@@ -29,7 +29,7 @@ const Chart = ({ cases, predictions }) => {
 
   return (
     <ResponsiveContainer width={"99%"} height={500}>
-      <ComposedChart margin={{ top: 20, bottom: 20, right: 20, left: 60 }}>
+      <ComposedChart margin={{ top: 20, bottom: 20, right: 60, left: 60 }}>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis type="number" dataKey="day" name="days" unit=" days" />
         <YAxis
@@ -42,10 +42,10 @@ const Chart = ({ cases, predictions }) => {
         />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
-          labelFormatter={day => "Days: " + day}
-          formatter={(value, _name, _props) =>
-            Math.floor(value).toLocaleString()
-          }
+          labelFormatter={day => `Days: ${day} (${dates[day]})`}
+          formatter={(value, _name, _props) => {
+            return Math.floor(value).toLocaleString();
+          }}
         />
 
         {countries.map(country => (
@@ -55,7 +55,7 @@ const Chart = ({ cases, predictions }) => {
             name={countries.length == 1 ? `Cases` : country}
             data={data[country]}
             key={country}
-            fill={`#${cases[country][0].color}`}
+            fill={`#${countries_with_colors[country].cases}`}
           />
         ))}
 
@@ -65,7 +65,7 @@ const Chart = ({ cases, predictions }) => {
             dataKey="predicted_cases"
             data={data[country]}
             strokeDasharray="5 5"
-            stroke={`#${predictions[country]?.[0]?.color}`}
+            stroke={`#${countries_with_colors[country].predictions}`}
             name={`Predicted Cases`}
             dot={false}
             activeDot={false}

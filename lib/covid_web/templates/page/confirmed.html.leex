@@ -2,7 +2,7 @@
 
   <div class="flex">
     <div class="w-full">
-      <h1 class="mb-10 px-2 text-center text-4xl sm:px-0">
+      <h1 class="mb-8 px-2 text-center text-4xl sm:px-0">
         Total Confirmed Cases
       </h1>
     </div>
@@ -22,7 +22,12 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <%= live_react_component("Components.Chart", %{key: "Canada", cases: %{"Canada": @current_cases["Canada"]}, predictions: %{"Canada": @modeled_cases["Canada"]}}) %>
+        <%= live_react_component("Components.Chart", %{
+          key: "Canada",
+          cases: %{"Canada": @current_cases["Canada"]},
+          predictions: %{"Canada": @modeled_cases["Canada"]},
+          dates: @dates,
+          countries_with_colors: @countries_with_colors}) %>
       </div>
     </div>
   </div>
@@ -42,7 +47,12 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <%= live_react_component("Components.Chart", %{key: "Italy", cases: %{"Italy": @current_cases["Italy"]}, predictions: %{"Italy": @modeled_cases["Italy"]}}) %>
+        <%= live_react_component("Components.Chart", %{
+          key: "Italy",
+          cases: %{"Italy": @current_cases["Italy"]},
+          predictions: %{"Italy": @modeled_cases["Italy"]},
+          dates: @dates,
+          countries_with_colors: @countries_with_colors}) %>
       </div>
     </div>
   </div>
@@ -60,7 +70,13 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <%= live_react_component("Components.Chart", %{key: "US", cases: %{"US": @current_cases["US"]}, predictions: %{"US": @modeled_cases["US"]}}) %>
+        <%= live_react_component("Components.Chart", %{
+          key: "US",
+          cases: %{"US": @current_cases["US"]},
+          predictions: %{"US": @modeled_cases["US"]},
+          dates: @dates,
+          countries_with_colors: @countries_with_colors
+         }) %>
       </div>
     </div>
   </div>
@@ -78,7 +94,12 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <%= live_react_component("Components.Chart", %{key: "KS", cases: %{"Korea, South": @current_cases["Korea, South"]}, predictions: %{"Korea, South": @modeled_cases["Korea, South"]}}) %>
+        <%= live_react_component("Components.Chart", %{
+          key: "KS",
+          cases: %{"Korea, South": @current_cases["Korea, South"]},
+          predictions: %{"Korea, South": @modeled_cases["Korea, South"]},
+          dates: @dates,
+          countries_with_colors: @countries_with_colors}) %>
       </div>
     </div>
   </div>
@@ -95,9 +116,14 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <%= live_react_component("Components.Chart", %{key: "ALL", cases: @current_cases, predictions: @modeled_cases}) %>
+        <%= live_react_component("Components.Chart", %{
+            key: "ALL",
+            cases: @current_cases,
+            predictions: @modeled_cases,
+            dates: @dates,
+            countries_with_colors: @countries_with_colors}) %>
+        </div, dates: @dates>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>

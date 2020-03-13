@@ -9,7 +9,7 @@ defmodule Covid.Predict.Cache do
          ttl_check_interval: :timer.minutes(30),
          global_ttl: :timer.hours(12)
        ]},
-      id: :con_cache_itunes_fast_cache
+      id: :con_cache_prediction_cache
     )
   end
 

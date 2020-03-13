@@ -19,8 +19,6 @@
             <div class="flex">
               <div class="hidden py-3 sm:flex">
                 <%= link "Confirmed", to: Routes.page_path(@conn, :confirmed), class: "#{active(@conn, Routes.page_path(@conn, :confirmed), "bg-gray-900")} rounded-md font-medium py-2 px-3 text-white text-sm focus:outline-none focus:text-white focus:bg-gray-700" %>
-                <%= link "Recovered", to: Routes.page_path(@conn, :recovered), class: "#{active(@conn, Routes.page_path(@conn, :recovered), "bg-gray-900")} rounded-md font-medium py-2 px-3 text-white text-sm focus:outline-none focus:text-white focus:bg-gray-700 ml-2" %>
-                <%= link "Deaths", to: Routes.page_path(@conn, :deaths), class: "#{active(@conn, Routes.page_path(@conn, :deaths), "bg-gray-900")} rounded-md font-medium py-2 px-3 text-white text-sm focus:outline-none focus:text-white focus:bg-gray-700 ml-2" %>
               </div>
             </div>
 
@@ -45,8 +43,6 @@
         <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
           <div class="px-2 pt-2 pb-3 sm:px-3">
             <%= link "Confirmed", to: Routes.page_path(@conn, :confirmed), class: "#{active(@conn, Routes.page_path(@conn, :confirmed), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
-            <%= link "Recovered", to: Routes.page_path(@conn, :recovered), class: "#{active(@conn, Routes.page_path(@conn, :recovered), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
-            <%= link "Deaths", to: Routes.page_path(@conn, :deaths), class: "#{active(@conn, Routes.page_path(@conn, :deaths), "bg-gray-900")} rounded-md block font-medium mt-1 py-2 px-3 text-gray-300 text-base hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"%>
           </div>
         </div>
       </nav>

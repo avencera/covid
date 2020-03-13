@@ -41,7 +41,6 @@ const Chart = ({ cases, predictions }) => {
             return Math.floor(tick).toLocaleString();
           }}
         />
-        <ZAxis type="category" dataKey="date" name="date" unit=" date" />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
           labelFormatter={day => "Days: " + day}

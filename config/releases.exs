@@ -3,6 +3,7 @@ import Config
 config :covid, CovidWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT", "4000"))],
   url: [host: System.fetch_env!("DOMAIN_NAME"), scheme: "https", port: 443],
+  check_origin: System.fetch_env!("ORIGINS") |> String.split(","),
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
   live_view: [
     signing_salt: System.fetch_env!("LIVE_VIEW_SIGNING_SALT")

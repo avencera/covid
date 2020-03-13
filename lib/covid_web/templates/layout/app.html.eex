@@ -56,6 +56,20 @@
       </main>
     </div>
 
+    <footer class="bg-gray-800 hidden items-center justify-center mt-6 py-4 w-full md:flex">
+      <div class="container max-w-6xl py-3 text-center w-full">
+        <div class="flex items-center justify-between">
+          <div class="w-full">
+            <div class="flex justify-center text-white w-full">
+              Created by <a href="https://twitter.com/praveenperera" class="pl-1 hover:underline">
+                @praveenperera
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
   </body>

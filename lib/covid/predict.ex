@@ -1,32 +1,47 @@
 defmodule Covid.Predict do
   alias Covid.Database, as: DB
   alias Covid.Predict.Exponential
+  alias Covid.Database
+  alias LearnKit.Regression.Polynomial
+
+  @type(type :: :exponential, :polynomial, :weighted_exponential)
 
   defmodule Result do
-    @enforce_keys [:days, :cases]
-    defstruct [:days, :cases]
+    @enforce_keys [:days, :cases, :country, :dates]
+    defstruct [:days, :cases, :country, :dates]
 
-    def new({days, cases}) do
-      %Result{days: days, cases: cases}
+    def new(country, days, cases) do
+      starting_date = Database.last_confirmed_date_by_country(country)
+
+      dates =
+        1..Enum.count(days)
+        |> Enum.map(fn x -> Date.add(starting_date, x) end)
+
+      %Result{days: days, cases: cases, country: country, dates: dates}
     end
   end
 
-  def predict_for_country(country, days \\ 100) do
-    model = model_for_country(country)
+  def predict_for_country(country, type, days \\ 90) do
+    model = model_for_country(country, type)
 
     last_day = List.last(model.factors)
 
-    days =
-      1..days
-      |> Enum.map(fn x -> last_day + x end)
+    days = 1..(last_day + days)
 
-    cases = Enum.map(days, fn day -> Exponential.predict(model, day) end)
+    cases =
+      days
+      |> Enum.map(fn day -> predict(model, day, type) end)
+      |> Enum.map(fn
+        x when x < 0 -> 0
+        x -> x
+      end)
+      |> Enum.reject(&is_nil/1)
 
-    Result.new({days, cases})
+    Result.new(country, days, cases)
   end
 
-  @spec model_for_country(String.t()) :: Covid.Predict.Exponential.Model.t()
-  def model_for_country(country) do
+  @spec model_for_country(String.t(), type) :: Polynomial.t() | Exponential.Model.t()
+  def model_for_country(country, type) do
     factors_and_results =
       DB.total_confirmed_by(country: country)
       |> DB.convert_dates_to_days()
@@ -39,9 +54,28 @@ defmodule Covid.Predict do
       factors_and_results
       |> Enum.map(&elem(&1, 1))
 
+    model_for_x_and_ys(factors, results, type)
+  end
+
+  @spec model_for_x_and_ys([number()], [number()], :exponential) :: Exponential.Model.t()
+  def model_for_x_and_ys(factors, results, :exponential) do
     factors
     |> remove_zeros(results)
-    |> Exponential.fit()
+    |> Exponential.fit(:exponential)
+  end
+
+  @spec model_for_x_and_ys([number()], [number()], :weighted_exponential) :: Exponential.Model.t()
+  def model_for_x_and_ys(factors, results, :weighted_exponential) do
+    factors
+    |> remove_zeros(results)
+    |> Exponential.fit(:weighted_exponential)
+  end
+
+  @spec model_for_x_and_ys([number()], [number()], :polynomial) :: Polynomial.t()
+  def model_for_x_and_ys(factors, results, :polynomial) do
+    factors
+    |> LearnKit.Regression.Polynomial.new(results)
+    |> LearnKit.Regression.Polynomial.fit(degree: 4)
   end
 
   def remove_zeros(factors, results) do
@@ -67,5 +101,16 @@ defmodule Covid.Predict do
       |> Enum.map(&elem(&1, 0))
 
     {factors, results}
+  end
+
+  def predict(model, day, type) when type in [:exponential, :weighted_exponential] do
+    Exponential.predict(model, day)
+  end
+
+  def predict(model, day, :polynomial) do
+    case Polynomial.predict(model, day) do
+      {:ok, prediction} -> prediction
+      _ -> nil
+    end
   end
 end

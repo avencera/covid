@@ -18,7 +18,9 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart" data-cases="<%=  Jason.encode!(%{"Canada": @cases["Canada"]}) %>"></div>
+        <div class="chart"
+             data-predictions="<%=  Jason.encode!(%{"Canada": @modeled_cases["Canada"]}) %>"
+             data-cases="<%=  Jason.encode!(%{"Canada": @current_cases["Canada"]}) %>"></div>
       </div>
     </div>
   </div>
@@ -34,7 +36,10 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart" data-cases="<%=  Jason.encode!(%{"Italy": @cases["Italy"]}) %>"></div>
+        <div class="chart"
+             data-predictions="<%= Jason.encode!(%{"Italy": @modeled_cases["Italy"]}) %>"
+             data-cases="<%=  Jason.encode!(%{"Italy": @current_cases["Italy"]}) %>">
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +55,9 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart" data-cases="<%=  Jason.encode!(%{"US": @cases["US"]}) %>"></div>
+        <div class="chart"
+             data-predictions="<%= Jason.encode!(%{"US": @modeled_cases["US"]}) %>"
+             data-cases="<%=  Jason.encode!(%{"US": @current_cases["US"]}) %>"></div>
       </div>
     </div>
   </div>
@@ -58,7 +65,7 @@
   <div class="flex mb-6 mt-16">
     <div class="w-full">
       <h1 class="px-2 text-2xl sm:px-0">
-        Republic of Korea
+        South Korea
       </h1>
     </div>
   </div>
@@ -67,7 +74,8 @@
     <div class="flex py-10">
       <div class="w-full">
         <div class="chart"
-             data-cases="<%=  Jason.encode!(%{"Republic of Korea": @cases["Republic of Korea"]}) %>">
+             data-predictions="<%= Jason.encode!(%{"South Korea": @modeled_cases["Korea, South"]}) %>"
+             data-cases="<%=  Jason.encode!(%{"South Korea": @current_cases["Korea, South"]}) %>">
         </div>
       </div>
     </div>
@@ -85,7 +93,10 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart" data-cases="<%=  Jason.encode!(@cases) %>"></div>
+        <div class="chart"
+             data-predictions="<%=  Jason.encode!(@modeled_cases) %>"
+             data-cases="<%=  Jason.encode!(@current_cases) %>">
+        </div>
       </div>
     </div>
 

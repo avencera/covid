@@ -2,6 +2,8 @@ defmodule Covid.Predict.Exponential do
   alias Covid.Predict.Exponential.Py
   alias Statistics.Math
 
+  @type(type :: :exponential, :weighted_exponential)
+
   defmodule Model do
     @type t :: %Model{
             a: float,
@@ -11,12 +13,9 @@ defmodule Covid.Predict.Exponential do
     defstruct [:factors, :results, :a, :b]
   end
 
-  @spec fit({[pos_integer()], [pos_integer()]}) :: Model.t()
-  def fit({x, y}), do: fit(x, y)
-
-  @spec fit([pos_integer()], [pos_integer()]) :: Model.t()
-  def fit(x, y) do
-    with {:ok, [b, a]} <- Py.fit(x, y) do
+  @spec fit({[pos_integer()], [pos_integer()]}, type) :: Model.t()
+  def fit({x, y}, type) do
+    with {:ok, [b, a]} <- Py.fit(x, y, type) do
       %Model{a: a, b: b, factors: x, results: y}
     end
   end

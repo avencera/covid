@@ -34,4 +34,10 @@ defmodule Covid.Database do
 
   def total_recovered_by(getter), do: Query.total_by(Recovered, getter)
   def total_deaths_by(getter), do: Query.total_by(Deaths, getter)
+
+  def last_confirmed_date_by_country(country) do
+    total_confirmed_by(country: country)
+    |> List.last()
+    |> elem(0)
+  end
 end

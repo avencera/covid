@@ -2,16 +2,17 @@ defmodule CovidWeb.PageController do
   alias Covid.Database
   use CovidWeb, :controller
   alias Covid.Format
+  alias Covid.Predict
 
   def confirmed(conn, _params) do
     countries_with_colors = %{
       "Canada" => :red,
       "US" => :blue,
       "Italy" => :purple,
-      "Republic of Korea" => :teal
+      "Korea, South" => :teal
     }
 
-    cases =
+    current_cases =
       countries_with_colors
       |> Enum.map(fn {country, _color} -> country end)
       |> Database.total_confirmed_by_countries()
@@ -20,7 +21,18 @@ defmodule CovidWeb.PageController do
       end)
       |> Map.new()
 
-    render(conn, "confirmed.html", cases: cases)
+    modeled_cases =
+      countries_with_colors
+      |> Enum.map(fn {country, _map} ->
+        {country,
+         Format.for_graph(
+           Predict.predict_for_country(country, :weighted_exponential, 50),
+           Map.get(countries_with_colors, country)
+         )}
+      end)
+      |> Map.new()
+
+    render(conn, "confirmed.html", current_cases: current_cases, modeled_cases: modeled_cases)
   end
 
   def recovered(conn, _params) do

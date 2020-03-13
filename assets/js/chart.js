@@ -63,6 +63,7 @@ const Chart = ({ cases, predictions }) => {
 
         {countries.map(country => (
           <Line
+            key={`${country}-line`}
             dataKey="predicted_cases"
             data={data[country]}
             strokeDasharray="5 5"

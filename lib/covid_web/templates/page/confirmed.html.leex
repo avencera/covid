@@ -1,4 +1,5 @@
 <div class="container mx-auto pt-4">
+
   <div class="flex mb-12">
     <div class="w-full">
       <h1 class="px-2 text-center text-4xl sm:px-0">
@@ -18,9 +19,7 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart"
-             data-predictions="<%=  Jason.encode!(%{"Canada": @modeled_cases["Canada"]}) %>"
-             data-cases="<%=  Jason.encode!(%{"Canada": @current_cases["Canada"]}) %>"></div>
+        <%= live_react_component("Components.Chart", %{key: "Canada", cases: %{"Canada": @current_cases["Canada"]}, predictions: %{"Canada": @modeled_cases["Canada"]}}) %>
       </div>
     </div>
   </div>
@@ -36,10 +35,7 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart"
-             data-predictions="<%= Jason.encode!(%{"Italy": @modeled_cases["Italy"]}) %>"
-             data-cases="<%=  Jason.encode!(%{"Italy": @current_cases["Italy"]}) %>">
-        </div>
+        <%= live_react_component("Components.Chart", %{key: "Italy", cases: %{"Italy": @current_cases["Italy"]}, predictions: %{"Italy": @modeled_cases["Italy"]}}) %>
       </div>
     </div>
   </div>
@@ -55,9 +51,7 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart"
-             data-predictions="<%= Jason.encode!(%{"US": @modeled_cases["US"]}) %>"
-             data-cases="<%=  Jason.encode!(%{"US": @current_cases["US"]}) %>"></div>
+        <%= live_react_component("Components.Chart", %{key: "US", cases: %{"US": @current_cases["US"]}, predictions: %{"US": @modeled_cases["US"]}}) %>
       </div>
     </div>
   </div>
@@ -73,10 +67,7 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart"
-             data-predictions="<%= Jason.encode!(%{"South Korea": @modeled_cases["Korea, South"]}) %>"
-             data-cases="<%=  Jason.encode!(%{"South Korea": @current_cases["Korea, South"]}) %>">
-        </div>
+        <%= live_react_component("Components.Chart", %{key: "KS", cases: %{"Korea, South": @current_cases["Korea, South"]}, predictions: %{"Korea, South": @modeled_cases["Korea, South"]}}) %>
       </div>
     </div>
   </div>
@@ -93,11 +84,9 @@
   <div class="bg-white rounded-lg px-5 py-6 shadow sm:px-6">
     <div class="flex py-10">
       <div class="w-full">
-        <div class="chart"
-             data-predictions="<%=  Jason.encode!(@modeled_cases) %>"
-             data-cases="<%=  Jason.encode!(@current_cases) %>">
-        </div>
+        <%= live_react_component("Components.Chart", %{key: "ALL", cases: @current_cases, predictions: @modeled_cases}) %>
       </div>
     </div>
-
   </div>
+
+</div>

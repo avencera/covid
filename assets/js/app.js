@@ -1,22 +1,24 @@
 import css from "../css/app.css";
-import React from "react";
-import ReactDOM from "react-dom";
 
 import "phoenix_html";
+import { Socket } from "phoenix";
+import LiveSocket from "phoenix_live_view";
+import LiveReact from "phoenix_live_react";
+
+let csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
+
+const hooks = { LiveReact };
+
+let liveSocket = new LiveSocket("/live", Socket, {
+  hooks: hooks,
+  params: { _csrf_token: csrfToken }
+});
+
+liveSocket.connect();
 
 import Chart from "./chart";
-
-const chartElements = Array.from(document.getElementsByClassName("chart"));
-
-chartElements.forEach(element => {
-  const cases = JSON.parse(element.dataset["cases"]);
-
-  const predictions =
-    element.dataset["predictions"] &&
-    JSON.parse(element.dataset["predictions"]);
-
-  ReactDOM.render(
-    <Chart cases={cases} predictions={predictions}></Chart>,
-    element
-  );
-});
+window.Components = {
+  Chart
+};

@@ -32,7 +32,9 @@ defmodule CovidWeb.API.CaseView do
       |> Enum.map(fn {_date, cases} -> cases end)
 
     %{
-      country => %{cases: cases, predictions: predicted.cases},
+      country: country,
+      cases: cases,
+      predictions: predicted.cases,
       prediction_type: prediction_type,
       start: "2020-01-22"
     }

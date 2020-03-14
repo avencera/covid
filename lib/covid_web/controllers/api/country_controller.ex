@@ -1,7 +1,6 @@
 defmodule CovidWeb.API.CountryController do
   use CovidWeb, :controller
   alias Covid.Database
-  alias Covid.Predict.Cache
 
   def index(conn, _params) do
     countries =

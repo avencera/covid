@@ -1,7 +1,6 @@
 defmodule Covid.Predict do
   alias Covid.Database, as: DB
   alias Covid.Predict.Exponential
-  alias Covid.Database
   alias LearnKit.Regression.Polynomial
 
   @type(type :: :exponential, :polynomial, :weighted_exponential)
@@ -11,10 +10,10 @@ defmodule Covid.Predict do
     defstruct [:days, :cases, :country, :dates]
 
     def new(country, days, cases) do
-      starting_date = Database.last_confirmed_date_by_country(country)
+      starting_date = Date.new(2020, 01, 22)
 
       dates =
-        1..Enum.count(days)
+        0..Enum.count(days)
         |> Enum.map(fn x -> Date.add(starting_date, x) end)
 
       %Result{days: days, cases: cases, country: country, dates: dates}

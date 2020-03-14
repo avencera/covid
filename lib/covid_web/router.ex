@@ -13,6 +13,11 @@ defmodule CovidWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", CovidWeb.API do
+    pipe_through [:api]
+    get "/confirmed/:country", CaseController, :index
+  end
+
   scope "/", CovidWeb do
     pipe_through [:browser]
     get "/", PageController, :confirmed

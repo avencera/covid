@@ -72,6 +72,9 @@ defmodule Covid.MixProject do
       # cache
       {:con_cache, "~> 0.13"},
 
+      # CORS
+      {:corsica, "~> 1.0"},
+
       # release
       {:libcluster, "~> 3.1"}
     ]

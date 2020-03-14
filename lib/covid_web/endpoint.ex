@@ -34,5 +34,6 @@ defmodule CovidWeb.Endpoint do
 
   plug Plug.Session, @session_options
 
+  plug Corsica, origins: "*"
   plug CovidWeb.Router
 end

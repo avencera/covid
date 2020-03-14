@@ -8,7 +8,6 @@ defmodule CovidWeb.API.CaseController do
       countries
       |> String.split(",")
       |> Database.total_confirmed_by_countries()
-      |> IO.inspect()
 
     predicted =
       countries

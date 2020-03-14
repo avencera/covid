@@ -12,7 +12,7 @@ defmodule Covid.Database.Importer do
       |> File.stream!()
       |> CSV.parse_stream(skip_headers: false)
 
-    [_state, _country, _lat, _long | days] =
+    [_region, _country, _lat, _long | days] =
       stream
       |> Stream.take(1)
       |> Enum.to_list()
@@ -34,7 +34,7 @@ defmodule Covid.Database.Importer do
   end
 
   def map(list, days) do
-    [state, country, lat, long | counts] = list
+    [region, country, lat, long | counts] = list
 
     counts
     |> Enum.with_index()
@@ -44,7 +44,7 @@ defmodule Covid.Database.Importer do
           %Entry{
             date: Map.get(days, index),
             cases: cases,
-            state: state,
+            region: region,
             country: country,
             lat: lat,
             long: long

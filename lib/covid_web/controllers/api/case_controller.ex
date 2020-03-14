@@ -4,7 +4,10 @@ defmodule CovidWeb.API.CaseController do
   alias Covid.Predict.Cache
 
   def index(conn, %{"country" => country}) do
-    confirmed = Database.total_confirmed_by(country: country)
+    confirmed =
+      Database.total_confirmed_by(country: country)
+      |> Enum.map(fn {_date, cases} -> cases end)
+
     predicted = Cache.predict_for_country(country, :weighted_exponential, 200)
 
     render(conn, "cases.json",

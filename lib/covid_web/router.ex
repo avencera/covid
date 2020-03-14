@@ -15,6 +15,7 @@ defmodule CovidWeb.Router do
 
   scope "/api", CovidWeb.API do
     pipe_through [:api]
+    get "/countries", CountryController, :index
     get "/confirmed/:country", CaseController, :index
   end
 

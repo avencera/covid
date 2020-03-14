@@ -125,8 +125,9 @@ RUN apk update && \
     bash \
     openssl-dev
 
+ENV PYTHONPATH=/usr/lib/python3.8/site-packages
+
 COPY --from=release-builder /opt/built /app
 WORKDIR /app
 
-ENV PYTHONPATH=/usr/lib/python3.8/site-packages
 CMD ["/app/covid/bin/covid", "start"]

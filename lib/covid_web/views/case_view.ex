@@ -7,34 +7,10 @@ defmodule CovidWeb.API.CaseView do
         prediction_type: prediction_type,
         country: country
       }) do
-    cases =
-      cases
-      |> Enum.with_index()
-      |> Enum.map(fn {{date, cases}, day} ->
-        %{
-          date: date,
-          value: cases,
-          type: :confirmed,
-          day: day,
-          country: country
-        }
-      end)
-
-    predictions =
-      predicted.dates
-      |> Enum.zip(predicted.cases)
-      |> Enum.with_index()
-      |> Enum.map(fn {{date, cases}, day} ->
-        %{
-          date: date,
-          prediction: cases,
-          day: day,
-          type: :prediction,
-          prediction_type: prediction_type,
-          country: country
-        }
-      end)
-
-    %{cases: cases, predictions: predictions}
+    %{
+      country => %{cases: cases, predictions: predicted.cases},
+      prediction_type: prediction_type,
+      start: "2020-01-22"
+    }
   end
 end

@@ -10,7 +10,7 @@ defmodule Covid.Predict do
     defstruct [:days, :cases, :country, :dates]
 
     def new(country, days, cases) do
-      starting_date = Date.new(2020, 01, 22)
+      {:ok, starting_date} = Date.new(2020, 01, 22)
 
       dates =
         0..Enum.count(days)

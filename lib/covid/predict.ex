@@ -6,10 +6,10 @@ defmodule Covid.Predict do
   @type(type :: :exponential, :polynomial, :weighted_exponential)
 
   defmodule Result do
-    @enforce_keys [:days, :cases, :country, :dates]
-    defstruct [:days, :cases, :country, :dates]
+    @enforce_keys [:days, :cases, :dates]
+    defstruct [:days, :cases, :country, :region, :dates]
 
-    def new(country, days, cases) do
+    def new(days, cases, country: country) do
       {:ok, starting_date} = Date.new(2020, 01, 22)
 
       dates =
@@ -18,10 +18,48 @@ defmodule Covid.Predict do
 
       %Result{days: days, cases: cases, country: country, dates: dates}
     end
+
+    def new(days, cases, region: region) do
+      {:ok, starting_date} = Date.new(2020, 01, 22)
+
+      dates =
+        0..Enum.count(days)
+        |> Enum.map(fn x -> Date.add(starting_date, x) end)
+
+      %Result{days: days, cases: cases, region: region, dates: dates}
+    end
   end
 
   def predict_for_country(country, type, days \\ 90) do
     model = model_for_country(country, type)
+
+    last_day = List.last(model.factors)
+
+    days = 0..(last_day + days)
+
+    cases =
+      days
+      |> Enum.map(fn day -> predict(model, day, type) end)
+      |> Enum.map(fn
+        x when x < 0 ->
+          0
+
+        x ->
+          case {country, x} do
+            {"Italy", x} when x > 60_000_000 -> 60_000_000
+            {"US", x} when x > 330_000_000 -> 330_000_000
+            {"Korea, South", x} when x > 51_000_000 -> 51_000_000
+            {"Canada", x} when x > 40_000_000 -> 40_000_000
+            _ -> x
+          end
+      end)
+      |> Enum.reject(&is_nil/1)
+
+    Result.new(days, cases, country: country)
+  end
+
+  def predict_for_region(region, type, days \\ 90) do
+    model = model_for_region(region, type)
 
     last_day = List.last(model.factors)
 
@@ -35,17 +73,28 @@ defmodule Covid.Predict do
           0
 
         x ->
-          case {country, x} do
-            {"Italy", x} when x > 60_000_000 -> 60_000_000
-            {"US", x} when x > 300_000_000 -> 300_000_000
-            {"Korea, South", x} when x > 51_000_000 -> 51_000_000
-            {"Canada", x} when x > 40_000_000 -> 40_000_000
-            _ -> x
-          end
+          x
       end)
       |> Enum.reject(&is_nil/1)
 
-    Result.new(country, days, cases)
+    Result.new(days, cases, region: region)
+  end
+
+  @spec model_for_region(String.t(), type) :: Polynomial.t() | Exponential.Model.t()
+  def model_for_region(region, type) do
+    factors_and_results =
+      DB.total_confirmed_by(region: region)
+      |> DB.convert_dates_to_days()
+
+    factors =
+      factors_and_results
+      |> Enum.map(&elem(&1, 0))
+
+    results =
+      factors_and_results
+      |> Enum.map(&elem(&1, 1))
+
+    model_for_x_and_ys(factors, results, type)
   end
 
   @spec model_for_country(String.t(), type) :: Polynomial.t() | Exponential.Model.t()

@@ -11,9 +11,26 @@ defmodule Covid.Database.Query do
     |> Enum.filter(fn entry -> entry.country == country end)
   end
 
+  def get(db, region: region) do
+    db
+    |> dump()
+    |> Enum.filter(fn entry -> entry.region == region end)
+  end
+
+  def total_by(db, region: region) do
+    db
+    |> get(region: region)
+    |> group_and_sort()
+  end
+
   def total_by(db, country: country) do
     db
     |> get(country: country)
+    |> group_and_sort()
+  end
+
+  defp group_and_sort(cases) do
+    cases
     |> Enum.group_by(fn entry -> entry.date end)
     |> Enum.map(fn {date, cases} ->
       total_cases =

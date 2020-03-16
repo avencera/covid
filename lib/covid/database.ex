@@ -8,6 +8,12 @@ defmodule Covid.Database do
     |> Map.new()
   end
 
+  def total_confirmed_by_regions(regions) do
+    regions
+    |> Enum.map(fn region -> {region, total_confirmed_by(region: region)} end)
+    |> Map.new()
+  end
+
   def total_recovered_by_countries(countries) do
     countries
     |> Enum.map(fn country -> {country, total_recovered_by(country: country)} end)

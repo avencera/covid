@@ -20,4 +20,12 @@ defmodule Covid.Predict.Cache do
       fn -> Predict.predict_for_country(country, type, days) end
     )
   end
+
+  def predict_for_region(region, type, days) do
+    ConCache.get_or_store(
+      __MODULE__,
+      "#{region}-#{type}",
+      fn -> Predict.predict_for_region(region, type, days) end
+    )
+  end
 end

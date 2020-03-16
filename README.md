@@ -9,19 +9,21 @@
 - **RESPONSE**:
 
 ```json
-{"Georgia": [],
-"Latvia": [],
-"Jamaica": [],
-"Poland": [],
-"Canada": [
-  "British Columbia",
-  "Ontario",
-  "Alberta",
-  "Quebec",
-  "New Brunswick",
-  "Manitoba",
-  "Saskatchewan",
-  "Grand Princess"
+{"Georgia": {"regions": [], population: xxxxxx},
+"Latvia": {"regions": [], population: xxxxxx},
+"Jamaica": {"regions": [], population: xxxxx},
+"Poland": {"regions": [], population: xxxxxxx},
+"Canada": {
+  "population": 37590000
+  "regions": [
+    "British Columbia",
+    "Ontario",
+    "Alberta",
+    "Quebec",
+    "New Brunswick",
+    "Manitoba",
+    "Saskatchewan",
+    "Grand Princess"
   ],
  ...
  }

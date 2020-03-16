@@ -1,6 +1,7 @@
 defmodule Covid.Database.Server do
   use GenServer
   @name __MODULE__
+  alias Covid.Database.Population
 
   def child_spec([]) do
     %{
@@ -15,6 +16,9 @@ defmodule Covid.Database.Server do
 
   @impl true
   def init(name) do
+    :ets.new(Population, [:set, :named_table, :public, read_concurrency: true])
+    :ets.insert(Population, {:populations, Population.seed()})
+
     Enum.each(dbs(), fn %{module: module, file: file} ->
       :ets.new(module, [:set, :named_table, :public, read_concurrency: true])
       seed(module, file)
@@ -29,8 +33,8 @@ defmodule Covid.Database.Server do
     |> Enum.map(fn {date, entry} -> :ets.insert(module, {date, entry}) end)
   end
 
-  def get(date, db) do
-    [{_k, v} | _] = :ets.lookup(db, date)
+  def get(key, db) do
+    [{_k, v} | _] = :ets.lookup(db, key)
     v
   end
 
@@ -43,14 +47,6 @@ defmodule Covid.Database.Server do
       %{
         module: Covid.Database.Confirmed,
         file: Application.app_dir(:covid, "priv/data/time_series_confirmed.csv")
-      },
-      %{
-        module: Covid.Database.Recovered,
-        file: Application.app_dir(:covid, "priv/data/time_series_recovered.csv")
-      },
-      %{
-        module: Covid.Database.Deaths,
-        file: Application.app_dir(:covid, "priv/data/time_series_deaths.csv")
       }
     ]
   end

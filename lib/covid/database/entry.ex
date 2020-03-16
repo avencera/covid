@@ -1,7 +1,7 @@
 defmodule Covid.Database.Entry do
   alias Covid.Database.Entry
 
-  defstruct [:date, :region, :country, :lat, :long, :cases]
+  defstruct [:date, :region, :country, :lat, :long, :cases, :population]
 
   @type t :: %Entry{
           date: DateTime.t(),
@@ -9,6 +9,7 @@ defmodule Covid.Database.Entry do
           country: String.t(),
           lat: String.t(),
           long: String.t(),
-          cases: integer()
+          cases: integer(),
+          population: pos_integer()
         }
 end

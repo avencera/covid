@@ -3,6 +3,8 @@ defmodule CovidWeb.API.CountryController do
   alias Covid.Database
 
   def index(conn, _params) do
+    populations = Database.get_populations()
+
     countries =
       Database.dump_confirmed()
       |> Enum.map(fn e -> {e.country, e.region} end)
@@ -16,7 +18,13 @@ defmodule CovidWeb.API.CountryController do
           end
         end
       )
-      |> Enum.map(fn {country, regions} -> {country, Enum.reject(regions, &is_nil/1)} end)
+      |> Enum.map(fn {country, regions} ->
+        {country,
+         %{
+           regions: Enum.reject(regions, &is_nil/1),
+           population: Map.get(populations, country)
+         }}
+      end)
       |> Map.new()
 
     conn

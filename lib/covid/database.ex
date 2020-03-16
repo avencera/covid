@@ -1,6 +1,6 @@
 defmodule Covid.Database do
   alias Covid.Database.Query
-  alias Covid.Database.{Confirmed, Recovered, Deaths}
+  alias Covid.Database.{Confirmed, Population}
 
   def total_confirmed_by_countries(countries) do
     countries
@@ -46,4 +46,6 @@ defmodule Covid.Database do
     |> List.last()
     |> elem(0)
   end
+
+  def get_populations(), do: Population.get_all()
 end

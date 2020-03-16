@@ -2,6 +2,10 @@ defmodule Covid.Database.Population do
   alias Covid.Database.Server
   alias Covid.Database.Population
 
+  def get(country) do
+    Map.get(get_all(), country)
+  end
+
   def get_all() do
     Server.get(:populations, Population)
   end

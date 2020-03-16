@@ -47,5 +47,6 @@ defmodule Covid.Database do
     |> elem(0)
   end
 
+  def get_population(country), do: Population.get(country)
   def get_populations(), do: Population.get_all()
 end

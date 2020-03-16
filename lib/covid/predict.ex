@@ -41,16 +41,12 @@ defmodule Covid.Predict do
       days
       |> Enum.map(fn day -> predict(model, day, type) end)
       |> Enum.map(fn
-        x when x < 0 ->
-          0
-
-        x ->
-          case {country, x} do
-            {"Italy", x} when x > 60_000_000 -> 60_000_000
-            {"US", x} when x > 330_000_000 -> 330_000_000
-            {"Korea, South", x} when x > 51_000_000 -> 51_000_000
-            {"Canada", x} when x > 40_000_000 -> 40_000_000
-            _ -> x
+        prediction ->
+          case {DB.get_population(country), prediction} do
+            {_, prediction} when prediction <= 0 -> 0
+            {nil, prediction} -> prediction
+            {population, prediction} when prediction >= population -> population
+            _ -> prediction
           end
       end)
       |> Enum.reject(&is_nil/1)

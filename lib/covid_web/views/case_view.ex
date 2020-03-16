@@ -8,38 +8,28 @@ defmodule CovidWeb.API.CaseView do
         prediction_type: prediction_type
       }) do
     countries =
-      countries.cases
-      |> Enum.map(fn {country, cases} ->
-        render(
-          CaseView,
-          "cases.json",
-          %{
-            cases: cases,
-            predicted: Map.get(countries.predicted, country),
-            prediction_type: prediction_type,
-            country: country
-          }
-        )
-      end)
-      |> Enum.group_by(fn x -> x.country end)
+      render(
+        CaseView,
+        "cases_countries.json",
+        %{
+          cases: countries.cases,
+          predicted: countries.predicted,
+          prediction_type: prediction_type
+        }
+      )
 
     regions =
-      regions.cases
-      |> Enum.map(fn {region, cases} ->
-        render(
-          CaseView,
-          "cases.json",
-          %{
-            cases: cases,
-            predicted: Map.get(regions.predicted, region),
-            prediction_type: prediction_type,
-            region: region
-          }
-        )
-      end)
-      |> Enum.group_by(fn x -> x.region end)
+      render(
+        CaseView,
+        "cases_regions.json",
+        %{
+          cases: regions.cases,
+          predicted: regions.predicted,
+          prediction_type: prediction_type
+        }
+      )
 
-    %{countries: countries, regions: regions}
+    Map.merge(regions, countries)
   end
 
   def render("cases_countries.json", %{
@@ -47,18 +37,23 @@ defmodule CovidWeb.API.CaseView do
         predicted: predicted,
         prediction_type: prediction_type
       }) do
-    Enum.map(cases, fn {country, cases} ->
-      render(
-        CaseView,
-        "cases.json",
-        %{
-          cases: cases,
-          predicted: Map.get(predicted, country),
-          prediction_type: prediction_type,
-          country: country
-        }
-      )
-    end)
+    %{
+      countries:
+        cases
+        |> Enum.map(fn {country, cases} ->
+          render(
+            CaseView,
+            "cases.json",
+            %{
+              cases: cases,
+              predicted: Map.get(predicted, country),
+              prediction_type: prediction_type,
+              country: country
+            }
+          )
+        end)
+        |> Enum.reduce(%{}, fn elem, acc -> Map.put(acc, elem.country, elem) end)
+    }
   end
 
   def render("cases_regions.json", %{
@@ -66,18 +61,23 @@ defmodule CovidWeb.API.CaseView do
         predicted: predicted,
         prediction_type: prediction_type
       }) do
-    Enum.map(cases, fn {region, cases} ->
-      render(
-        CaseView,
-        "cases.json",
-        %{
-          cases: cases,
-          predicted: Map.get(predicted, region),
-          prediction_type: prediction_type,
-          region: region
-        }
-      )
-    end)
+    %{
+      regions:
+        cases
+        |> Enum.map(fn {region, cases} ->
+          render(
+            CaseView,
+            "cases.json",
+            %{
+              cases: cases,
+              predicted: Map.get(predicted, region),
+              prediction_type: prediction_type,
+              region: region
+            }
+          )
+        end)
+        |> Enum.reduce(%{}, fn elem, acc -> Map.put(acc, elem.region, elem) end)
+    }
   end
 
   def render("cases.json", %{

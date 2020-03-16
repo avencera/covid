@@ -30,7 +30,7 @@
 ### By Country
 
 - **METHOD**: GET
-- **URL**: `https://api.rackingcovid.com/api/confirmed/:country`
+- **URL**: `https://api.rackingcovid.com/api/confirmed/<country>`
   - ex: https://api.trackingcovid.com/api/confirmed/Canada
 - **RESPONSE**
 
@@ -47,28 +47,101 @@
 ### By Countries
 
 - **METHOD**: GET
-- **URL**: `https://api.trackingcovid.com/api/confirmed/?countries=:countries`
+- **URL**: `https://api.trackingcovid.com/api/confirmed/?countries=<countries>`
   - ex: https://api.trackingcovid.com/api/confirmed?countries=Canada,US
 - **RESPONSE**
+
   ```json
-  [
-    {
-    "country": "Canada",
+  {"countries":
+    {"Canada": {
+        "cases": [0, 0, 1,...],
+        "predictions": [0.6292397306678004, 0.6990728897808295, ...],
+        "prediction_type": "weighted_exponential",
+        "country": "Canada",
+        "start": "2020-01-22"
+        },
+    "US": {
+        "country": "US",
+        "cases": [0, 0, 1,...],
+        "predictions": [0.1602764754993061, 0.19285269106150466, ...],
+        "prediction_type": "weighted_exponential",
+        "start": "2020-01-22"
+       },
+    },
+    "regions": []
+  }
+  ```
+
+### By Regions
+
+- **METHOD**: GET
+- **URL**: `https://api.trackingcovid.com/api/confirmed/?regions=<regions>`
+- ex: https://api.trackingcovid.com/api/confirmed?regions=Georgia,Ontario
+- **RESPONSE**
+
+```json
+{"regions":
+  {"Ontario": {
     "cases": [0, 0, 1,...],
     "predictions": [0.6292397306678004, 0.6990728897808295, ...],
     "prediction_type": "weighted_exponential",
+    "region": "Ontario",
     "start": "2020-01-22"
-    },
-    {
-    "country": "US",
+   },
+  "Georgia": {
+    "region": "Georgia",
     "cases": [0, 0, 1,...],
     "predictions": [0.1602764754993061, 0.19285269106150466, ...],
     "prediction_type": "weighted_exponential",
     "start": "2020-01-22"
+   },
+  },
+  "countries": []
+}
+```
+
+### By Countries & Regions
+
+- **METHOD**: GET
+- **URL**: `https://api.trackingcovid.com/api/confirmed/?countries=<countries>&regions=<regions>`
+- ex: https://api.trackingcovid.com/api/confirmed?regions=Georgia,Ontario&countries=US,Canada,Japan
+- **RESPONSE**
+
+```json
+{"regions":
+    {"Ontario": {
+      "cases": [0, 0, 1,...],
+      "predictions": [0.6292397306678004, 0.6990728897808295, ...],
+      "prediction_type": "weighted_exponential",
+      "region": "Ontario",
+      "start": "2020-01-22"
+     },
+    "Georgia": {
+      "region": "Georgia",
+      "cases": [0, 0, 1,...],
+      "predictions": [0.1602764754993061, 0.19285269106150466, ...],
+      "prediction_type": "weighted_exponential",
+      "start": "2020-01-22"
+     },
     },
-    ...
-  ]
-  ```
+ "countries":
+    {"Canada": {
+        "cases": [0, 0, 1,...],
+        "predictions": [0.6292397306678004, 0.6990728897808295, ...],
+        "prediction_type": "weighted_exponential",
+        "country": "Canada",
+        "start": "2020-01-22"
+        },
+    "US": {
+        "country": "US",
+        "cases": [0, 0, 1,...],
+        "predictions": [0.1602764754993061, 0.19285269106150466, ...],
+        "prediction_type": "weighted_exponential",
+        "start": "2020-01-22"
+        },
+    },
+}
+```
 
 ## Sources
 

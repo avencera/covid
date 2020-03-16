@@ -63,7 +63,7 @@ defmodule Covid.Predict do
 
     last_day = List.last(model.factors)
 
-    days = 1..(last_day + days)
+    days = 0..(last_day + days)
 
     cases =
       days

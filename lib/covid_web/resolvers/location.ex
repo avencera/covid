@@ -4,11 +4,7 @@ defmodule CovidWeb.Resolvers.Location do
   alias Covid.Database.Country.Region
 
   def list_countries(_parent, _args, _resolution) do
-    countries =
-      Database.dump_confirmed()
-      |> Enum.map(fn e -> e.country end)
-      |> Enum.uniq()
-      |> Enum.map(&Country.new/1)
+    countries = Database.get_countries()
 
     {:ok, countries}
   end

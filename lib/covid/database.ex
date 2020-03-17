@@ -2,7 +2,7 @@ defmodule Covid.Database do
   alias Covid.Database.Query
   alias Covid.Database.{Confirmed}
   alias Covid.Database.Country
-  alias Covid.Database.Country.Population
+  alias Covid.Database.Country.{Population, Region}
 
   def total_confirmed_by_countries(countries) do
     countries
@@ -52,15 +52,7 @@ defmodule Covid.Database do
   def get_population(country), do: Population.get(country)
   def get_populations(), do: Population.get_all()
 
-  def get_countries() do
-    dump_confirmed()
-    |> Enum.map(fn e -> e.country end)
-    |> Enum.uniq()
-    |> Enum.map(&Country.new/1)
-    |> Enum.reduce(%{}, fn country, acc -> Map.put(acc, country.name, country) end)
-  end
-
-  def get_regions() do
+  def get_countries_and_regions() do
     dump_confirmed()
     |> Enum.map(fn e -> {e.country, e.region} end)
     |> Enum.uniq()
@@ -74,10 +66,14 @@ defmodule Covid.Database do
       end
     )
     |> Enum.map(fn {country, regions} ->
-      {country,
-       %{
-         regions: Enum.reject(regions, &is_nil/1)
-       }}
+      country = Country.new(country)
+
+      regions =
+        regions
+        |> Enum.reject(&is_nil/1)
+        |> Enum.map(&Region.new(&1, country.name))
+
+      {country, regions}
     end)
     |> Map.new()
   end

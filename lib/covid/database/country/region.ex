@@ -5,15 +5,17 @@ defmodule Covid.Database.Country.Region do
 
   @type t :: %Region{
           name: String.t(),
-          country: Country.t()
+          country: nil | Country.t(),
+          country_name: String.t()
         }
 
-  defstruct [:name, :country]
+  defstruct [:name, :country, :country_name]
 
-  def new(region) do
+  def new(region, country_name) do
     %{
       name: region,
-      country: %{}
+      country: nil,
+      country_name: country_name
     }
   end
 
@@ -22,43 +24,30 @@ defmodule Covid.Database.Country.Region do
   end
 
   def fetch({:regions, %{}}, _args) do
-    regions_map = list_regions()
-
-    all_regions =
-      regions_map
-      |> Map.values()
-      |> List.flatten()
-
-    Map.put(regions_map, %{}, all_regions)
+    %{%{} => list_regions_list()}
   end
 
   def fetch({:region, %{name: region_name}}, _args) do
-    regions_map =
-      list_regions()
-      |> Map.values()
-      |> List.flatten()
-
     %{
-      %{} => Enum.find(regions_map, fn region -> region.name == region_name end)
+      %{} => Enum.find(list_regions_list(), fn region -> region.name == region_name end)
     }
   end
 
-  defp list_regions() do
-    Database.dump_confirmed()
-    |> Enum.map(fn e -> {e.country, e.region} end)
-    |> Enum.uniq()
-    |> Enum.group_by(
-      fn {country, _region} -> country end,
-      fn {_country, region} ->
-        case region do
-          "" -> nil
-          region -> region
-        end
-      end
-    )
-    |> Enum.map(fn {country, regions} ->
-      {Country.new(country), regions |> Enum.reject(&is_nil/1) |> Enum.map(&Region.new/1)}
+  def fetch({:from_country, %{}}, countries) do
+    countries
+    |> Enum.reduce(%{}, fn %{name: country_name} = arg, map ->
+      regions =
+        Database.get_countries_and_regions()
+        |> Enum.filter(fn {country, _regions} -> country.name == country_name end)
+        |> Enum.flat_map(fn {_country, regions} -> regions end)
+
+      Map.put(map, arg, regions)
     end)
-    |> Enum.reduce(%{}, fn {country, regions}, acc -> Map.put(acc, country, regions) end)
+  end
+
+  defp list_regions_list() do
+    Database.get_countries_and_regions()
+    |> Enum.map(fn {_country, regions} -> regions end)
+    |> List.flatten()
   end
 end

@@ -6,9 +6,10 @@ defmodule CovidWeb.API.CountryController do
     populations = Database.get_populations()
 
     countries =
-      Database.get_regions()
-      |> Enum.map(fn {country, map} ->
-        {country, Map.put(map, :population, Map.get(populations, country))}
+      Database.get_countries_and_regions()
+      |> Enum.map(fn {country, regions} ->
+        {country.name,
+         %{regions: Enum.map(regions, & &1.name), population: Map.get(populations, country.name)}}
       end)
       |> Map.new()
 

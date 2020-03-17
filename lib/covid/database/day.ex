@@ -55,16 +55,13 @@ defmodule Covid.Database.Day do
   end
 
   def fetch({:for_region, %{}}, regions) do
-    regions_map = Database.get_entires_by_region()
+    regions_map = Database.get_entries_by_region()
 
     regions
     |> Enum.reduce(%{}, fn %{name: region_name} = arg, acc ->
       entries =
         regions_map
-        |> Enum.filter(fn {region, _entries} -> region.name == region_name end)
-        |> Enum.flat_map(fn {_region, entries} ->
-          entries
-        end)
+        |> Map.get(region_name)
 
       predictions = Predict.predict_for_region(region_name, :weighted_exponential, 90)
 
@@ -81,10 +78,7 @@ defmodule Covid.Database.Day do
     |> Enum.reduce(%{}, fn %{name: country_name} = arg, acc ->
       total_tuples =
         countries_map
-        |> Enum.filter(fn {country, _entries} -> country.name == country_name end)
-        |> Enum.flat_map(fn {_country, total_tuple} ->
-          total_tuple
-        end)
+        |> Map.get(country_name)
 
       predictions = Predict.predict_for_country(country_name, :weighted_exponential, 90)
 

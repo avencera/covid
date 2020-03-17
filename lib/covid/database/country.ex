@@ -25,6 +25,14 @@ defmodule Covid.Database.Country do
     Dataloader.KV.new(&fetch/2)
   end
 
+  def fetch({:countries, %{names: names}}, _args) do
+    countries =
+      list_countries()
+      |> Enum.filter(fn country -> country.name in names end)
+
+    %{%{} => countries}
+  end
+
   def fetch({:countries, %{}}, _args) do
     %{
       %{} => list_countries()

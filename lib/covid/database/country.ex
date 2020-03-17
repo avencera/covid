@@ -20,4 +20,34 @@ defmodule Covid.Database.Country do
       population: Map.get(populations, country)
     }
   end
+
+  def data() do
+    Dataloader.KV.new(&fetch/2)
+  end
+
+  def fetch({:countries, %{}}, _args) do
+    %{
+      %{} => list_countries()
+    }
+  end
+
+  def fetch({:country, %{name: country_name}}, _args) do
+    %{
+      %{} => Enum.find(list_countries(), fn country -> country.name == country_name end)
+    }
+  end
+
+  def fetch(batch, args) do
+    IO.inspect(batch, label: "BATCH")
+    IO.inspect(args, label: "ARGS")
+
+    args |> Enum.reduce(%{}, fn arg, accum -> Map.put(accum, arg, nil) end)
+  end
+
+  defp list_countries() do
+    Database.dump_confirmed()
+    |> Enum.map(fn e -> e.country end)
+    |> Enum.uniq()
+    |> Enum.map(&Country.new/1)
+  end
 end

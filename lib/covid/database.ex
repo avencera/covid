@@ -1,6 +1,7 @@
 defmodule Covid.Database do
   alias Covid.Database.Query
   alias Covid.Database.{Confirmed}
+  alias Covid.Database.Country
   alias Covid.Database.Country.Population
 
   def total_confirmed_by_countries(countries) do
@@ -55,6 +56,8 @@ defmodule Covid.Database do
     dump_confirmed()
     |> Enum.map(fn e -> e.country end)
     |> Enum.uniq()
+    |> Enum.map(&Country.new/1)
+    |> Enum.reduce(%{}, fn country, acc -> Map.put(acc, country.name, country) end)
   end
 
   def get_regions() do

@@ -78,6 +78,7 @@ defmodule Covid.MixProject do
       # graphql
       {:absinthe, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
+      {:dataloader, "~> 1.0.0"},
 
       # release
       {:libcluster, "~> 3.1"}

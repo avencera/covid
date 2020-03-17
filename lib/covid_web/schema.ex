@@ -1,19 +1,35 @@
 defmodule CovidWeb.Schema do
   use Absinthe.Schema
-  alias CovidWeb.Resolvers
+  alias Covid.Database.Country
+  alias Covid.Database.Country.Region
+
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   import_types(Absinthe.Type.Custom)
   import_types(CovidWeb.Schema.Location)
 
+  def context(ctx) do
+    loader =
+      Dataloader.new()
+      |> Dataloader.add_source(Countries, Country.data())
+      |> Dataloader.add_source(Regions, Region.data())
+
+    Map.put(ctx, :loader, loader)
+  end
+
+  def plugins do
+    [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
+  end
+
   @desc "Get all countries"
   query do
     field :countries, list_of(:country) do
-      resolve(&Resolvers.Location.list_countries/3)
+      resolve(dataloader(Countries))
     end
 
     field :country, :country do
       arg(:name, :string)
-      resolve(&Resolvers.Location.find_country/3)
+      resolve(dataloader(Countries))
     end
   end
 end

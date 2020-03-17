@@ -1,14 +1,17 @@
 defmodule CovidWeb.Schema.Location do
   use Absinthe.Schema.Notation
   alias CovidWeb.Resolvers
+  alias Covid.Database.Country.Region
+
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   @desc "A country"
   object :country do
-    field :name, :string
+    field :name, non_null(:string)
     field :population, :integer
 
     field :regions, list_of(:region) do
-      resolve(&Resolvers.Location.list_regions/3)
+      resolve(dataloader(Regions))
     end
   end
 

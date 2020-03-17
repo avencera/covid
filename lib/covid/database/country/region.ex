@@ -22,12 +22,24 @@ defmodule Covid.Database.Country.Region do
   end
 
   def fetch({:regions, %{}}, _args) do
-    list_regions()
+    regions_map = list_regions()
+
+    all_regions =
+      regions_map
+      |> Map.values()
+      |> List.flatten()
+
+    Map.put(regions_map, %{}, all_regions)
   end
 
-  def fetch({:region, %{name: region_name}, _args}) do
+  def fetch({:region, %{name: region_name}}, _args) do
+    regions_map =
+      list_regions()
+      |> Map.values()
+      |> List.flatten()
+
     %{
-      %{} => Enum.find(list_regions(), fn region -> region.name == region_name end)
+      %{} => Enum.find(regions_map, fn region -> region.name == region_name end)
     }
   end
 

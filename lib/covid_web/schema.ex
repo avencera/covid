@@ -32,6 +32,17 @@ defmodule CovidWeb.Schema do
       arg(:name, :string)
       resolve(dataloader(Countries))
     end
+
+    @desc "Get all regions"
+    field :regions, list_of(:region) do
+      resolve(dataloader(Regions))
+    end
+
+    @desc "Get a region"
+    field :region, :region do
+      arg(:name, :string)
+      resolve(dataloader(Regions))
+    end
   end
 
   @desc "A country"
@@ -47,6 +58,9 @@ defmodule CovidWeb.Schema do
   @desc "A region"
   object :region do
     field :name, :string
-    field :country, non_null(:country)
+
+    field :country, non_null(:country) do
+      resolve(dataloader(Countries))
+    end
   end
 end

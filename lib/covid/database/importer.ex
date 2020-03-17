@@ -1,5 +1,6 @@
 defmodule Covid.Database.Importer do
-  alias Covid.Database.{Entry, Population}
+  alias Covid.Database.{Entry}
+  alias Covid.Database
 
   NimbleCSV.define(CSV, separator: ",", escape: "\"")
 
@@ -34,7 +35,7 @@ defmodule Covid.Database.Importer do
   end
 
   def map(list, days) do
-    populations = Population.get_all()
+    populations = Database.get_populations()
 
     [region, country, lat, long | counts] = list
 

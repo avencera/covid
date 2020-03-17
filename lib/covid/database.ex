@@ -1,6 +1,7 @@
 defmodule Covid.Database do
   alias Covid.Database.Query
-  alias Covid.Database.{Confirmed, Population}
+  alias Covid.Database.{Confirmed}
+  alias Covid.Database.Country.Population
 
   def total_confirmed_by_countries(countries) do
     countries

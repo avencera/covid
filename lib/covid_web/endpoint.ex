@@ -1,5 +1,6 @@
 defmodule CovidWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :covid
+  use Absinthe.Phoenix.Endpoint
 
   @session_options [store: :cookie, key: "_covid_key", signing_salt: "IU732hMk"]
 

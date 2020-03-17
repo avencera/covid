@@ -21,6 +21,16 @@ defmodule CovidWeb.Router do
     get "/confirmed/:country", CaseController, :show
   end
 
+  scope "/api" do
+    pipe_through [:api]
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: CovidWeb.Schema,
+      socket: CovidWeb.UserSocket
+
+    forward "/", Absinthe.Plug, schema: CovidWeb.Schema
+  end
+
   scope "/", CovidWeb do
     pipe_through [:browser]
     get "/", PageController, :confirmed

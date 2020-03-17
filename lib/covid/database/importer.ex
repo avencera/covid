@@ -45,6 +45,7 @@ defmodule Covid.Database.Importer do
       case count |> String.trim() |> Integer.parse() do
         {cases, ""} ->
           %Entry{
+            day: index,
             date: Map.get(days, index),
             cases: cases,
             region: region,

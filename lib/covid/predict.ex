@@ -31,49 +31,65 @@ defmodule Covid.Predict do
   end
 
   def predict_for_country(country, type, days \\ 90) do
-    model = model_for_country(country, type)
+    with {:ok, model} <- model_for_country(country, type) do
+      last_day = List.last(model.factors)
 
-    last_day = List.last(model.factors)
+      days = 0..(last_day + days)
 
-    days = 0..(last_day + days)
+      cases =
+        days
+        |> Enum.map(fn day -> predict(model, day, type) end)
+        |> Enum.map(fn
+          prediction ->
+            case {DB.get_population(country), prediction} do
+              {_, prediction} when prediction <= 0 -> 0
+              {nil, prediction} -> prediction
+              {population, prediction} when prediction >= population -> population
+              _ -> prediction
+            end
+        end)
+        |> Enum.reject(&is_nil/1)
 
-    cases =
-      days
-      |> Enum.map(fn day -> predict(model, day, type) end)
-      |> Enum.map(fn
-        prediction ->
-          case {DB.get_population(country), prediction} do
-            {_, prediction} when prediction <= 0 -> 0
-            {nil, prediction} -> prediction
-            {population, prediction} when prediction >= population -> population
-            _ -> prediction
-          end
-      end)
-      |> Enum.reject(&is_nil/1)
+      Result.new(days, cases, country: country)
+    else
+      {:error, msg} ->
+        IO.puts(msg)
+        %Result{days: [], cases: [], country: country, dates: []}
 
-    Result.new(days, cases, country: country)
+      e ->
+        IO.inspect(e)
+        %Result{days: [], cases: [], country: country, dates: []}
+    end
   end
 
   def predict_for_region(region, type, days \\ 90) do
-    model = model_for_region(region, type)
+    with {:ok, model} <- model_for_region(region, type) do
+      last_day = List.last(model.factors)
 
-    last_day = List.last(model.factors)
+      days = 0..(last_day + days)
 
-    days = 0..(last_day + days)
+      cases =
+        days
+        |> Enum.map(fn day -> predict(model, day, type) end)
+        |> Enum.map(fn
+          x when x < 0 ->
+            0
 
-    cases =
-      days
-      |> Enum.map(fn day -> predict(model, day, type) end)
-      |> Enum.map(fn
-        x when x < 0 ->
-          0
+          x ->
+            x
+        end)
+        |> Enum.reject(&is_nil/1)
 
-        x ->
-          x
-      end)
-      |> Enum.reject(&is_nil/1)
+      Result.new(days, cases, region: region)
+    else
+      {:error, msg} ->
+        IO.puts(msg)
+        %Result{days: [], cases: [], region: region, dates: []}
 
-    Result.new(days, cases, region: region)
+      e ->
+        IO.inspect(e)
+        %Result{days: [], cases: [], region: region, dates: []}
+    end
   end
 
   @spec model_for_region(String.t(), type) :: Polynomial.t() | Exponential.Model.t()

@@ -2,6 +2,7 @@ defmodule Covid.Database.Day do
   alias Covid.Database
   alias Covid.Database.Day
   alias Covid.Predict.Cache, as: Predict
+  alias Covid.Database.Day.Cache
 
   @type t :: %Day{
           day: integer(),
@@ -55,36 +56,44 @@ defmodule Covid.Database.Day do
   end
 
   def fetch({:for_region, %{}}, regions) do
-    regions_map = Database.get_entries_by_region()
+    fetcher = fn ->
+      regions_map = Database.get_entries_by_region()
 
-    regions
-    |> Enum.reduce(%{}, fn %{name: region_name} = arg, acc ->
-      entries =
-        regions_map
-        |> Map.get(region_name)
+      regions
+      |> Enum.reduce(%{}, fn %{name: region_name} = arg, acc ->
+        entries =
+          regions_map
+          |> Map.get(region_name)
 
-      predictions = Predict.predict_for_region(region_name, :weighted_exponential, 120)
+        predictions = Predict.predict_for_region(region_name, :weighted_exponential, 120)
 
-      days = new_from_entries(entries, predictions)
+        days = new_from_entries(entries, predictions)
 
-      Map.put(acc, arg, days)
-    end)
+        Map.put(acc, arg, days)
+      end)
+    end
+
+    Cache.fetch_for_region(regions, fetcher)
   end
 
   def fetch({:for_country, %{}}, countries) do
-    countries_map = Database.get_totals_by_country()
+    fetcher = fn ->
+      countries_map = Database.get_totals_by_country()
 
-    countries
-    |> Enum.reduce(%{}, fn %{name: country_name} = arg, acc ->
-      total_tuples =
-        countries_map
-        |> Map.get(country_name)
+      countries
+      |> Enum.reduce(%{}, fn %{name: country_name} = arg, acc ->
+        total_tuples =
+          countries_map
+          |> Map.get(country_name)
 
-      predictions = Predict.predict_for_country(country_name, :weighted_exponential, 120)
+        predictions = Predict.predict_for_country(country_name, :weighted_exponential, 120)
 
-      days = new_from_totals(total_tuples, predictions)
+        days = new_from_totals(total_tuples, predictions)
 
-      Map.put(acc, arg, days)
-    end)
+        Map.put(acc, arg, days)
+      end)
+    end
+
+    Cache.fetch_for_country(countries, fetcher)
   end
 end

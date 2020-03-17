@@ -9,7 +9,8 @@ defmodule Covid.CacheSupervisor do
   @impl true
   def init(:ok) do
     children = [
-      Covid.Predict.Cache
+      Covid.Predict.Cache,
+      Covid.Database.Day.Cache
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

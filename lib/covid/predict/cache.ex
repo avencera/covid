@@ -7,7 +7,7 @@ defmodule Covid.Predict.Cache do
        [
          name: __MODULE__,
          ttl_check_interval: :timer.minutes(30),
-         global_ttl: :timer.hours(12)
+         global_ttl: :timer.hours(24)
        ]},
       id: :con_cache_prediction_cache
     )

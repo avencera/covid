@@ -63,7 +63,7 @@ defmodule Covid.Database.Day do
         regions_map
         |> Map.get(region_name)
 
-      predictions = Predict.predict_for_region(region_name, :weighted_exponential, 90)
+      predictions = Predict.predict_for_region(region_name, :weighted_exponential, 120)
 
       days = new_from_entries(entries, predictions)
 
@@ -80,7 +80,7 @@ defmodule Covid.Database.Day do
         countries_map
         |> Map.get(country_name)
 
-      predictions = Predict.predict_for_country(country_name, :weighted_exponential, 90)
+      predictions = Predict.predict_for_country(country_name, :weighted_exponential, 120)
 
       days = new_from_totals(total_tuples, predictions)
 

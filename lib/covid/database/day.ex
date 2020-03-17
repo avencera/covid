@@ -66,7 +66,7 @@ defmodule Covid.Database.Day do
           entries
         end)
 
-      predictions = Predict.predict_for_region(region_name, :weighted_exponential, 200)
+      predictions = Predict.predict_for_region(region_name, :weighted_exponential, 90)
 
       days = new_from_entries(entries, predictions)
 
@@ -86,7 +86,7 @@ defmodule Covid.Database.Day do
           total_tuple
         end)
 
-      predictions = Predict.predict_for_country(country_name, :weighted_exponential, 200)
+      predictions = Predict.predict_for_country(country_name, :weighted_exponential, 90)
 
       days = new_from_totals(total_tuples, predictions)
 

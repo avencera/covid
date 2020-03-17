@@ -26,7 +26,8 @@ defmodule CovidWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: CovidWeb.Schema,
-      socket: CovidWeb.UserSocket
+      socket: CovidWeb.UserSocket,
+      interface: :playground
 
     forward "/", Absinthe.Plug, schema: CovidWeb.Schema
   end

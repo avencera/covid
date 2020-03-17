@@ -3,7 +3,7 @@
 ## GraphQL
 
 - **ENDPOINT** `https://api.trackingcovid.com/api/`
-- **GraphiQL** https://api.trackingcovid.com/api/graphiql
+- **PLAYGROUND** https://api.trackingcovid.com/api/graphiql
 - Root nodes: `[country, countries, region, regions]`
 - Example:
 

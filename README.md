@@ -1,6 +1,37 @@
 # Covid API
 
-# Usage
+## GraphQL
+
+- **ENDPOINT** `https://api.trackingcovid.com/api/`
+- **GraphiQL** https://api.trackingcovid.com/api/graphiql
+- Root nodes: `[country, countries, region, regions]`
+- Example:
+
+```graphql
+{
+  regions(names: ["Ontario", "Georgia"]) {
+    name
+    days {
+      cases
+      date
+      day
+      predicted
+    }
+  }
+  countries(names: ["Canada", "US", "Korea, South"]) {
+    population
+    name
+    days {
+      cases
+      date
+      day
+      predicted
+    }
+  }
+}
+```
+
+## REST API
 
 ### Countries
 

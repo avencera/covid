@@ -1,7 +1,7 @@
 defmodule Covid.Database.Server do
   use GenServer
   @name __MODULE__
-  alias Covid.Database.Population
+  alias Covid.Database.Country.Population
 
   def child_spec([]) do
     %{

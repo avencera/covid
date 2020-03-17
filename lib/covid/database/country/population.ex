@@ -1,6 +1,8 @@
-defmodule Covid.Database.Population do
+defmodule Covid.Database.Country.Population do
   alias Covid.Database.Server
-  alias Covid.Database.Population
+  alias Covid.Database.Country.Population
+
+  @type t :: nil | pos_integer()
 
   def get(country) do
     Map.get(get_all(), country)

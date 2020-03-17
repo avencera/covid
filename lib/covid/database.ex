@@ -77,4 +77,14 @@ defmodule Covid.Database do
     end)
     |> Map.new()
   end
+
+  def get_entires_by_region() do
+    dump_confirmed()
+    |> Enum.map(fn entry -> {Region.new(entry.region, entry.country), entry} end)
+    |> Enum.reject(fn {region, _entries} -> region.name == "" end)
+    |> Enum.group_by(
+      fn {region, _entries} -> region end,
+      fn {_region, entries} -> entries end
+    )
+  end
 end

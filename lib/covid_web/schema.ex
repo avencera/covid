@@ -21,12 +21,13 @@ defmodule CovidWeb.Schema do
     [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end
 
-  @desc "Get all countries"
   query do
+    @desc "Get all countries"
     field :countries, list_of(:country) do
       resolve(dataloader(Countries))
     end
 
+    @desc "Get a country"
     field :country, :country do
       arg(:name, :string)
       resolve(dataloader(Countries))

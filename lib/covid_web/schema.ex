@@ -4,7 +4,7 @@ defmodule CovidWeb.Schema do
   alias Covid.Database.Country
   alias Covid.Database.Country.Region
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
   import_types(Absinthe.Type.Custom)
 
@@ -24,13 +24,24 @@ defmodule CovidWeb.Schema do
   query do
     @desc "Get all countries"
     field :countries, list_of(:country) do
-      resolve(dataloader(Countries))
+      resolve dataloader(Countries)
     end
 
     @desc "Get a country"
     field :country, :country do
-      arg(:name, :string)
-      resolve(dataloader(Countries))
+      arg :name, non_null(:string)
+      resolve dataloader(Countries)
+    end
+
+    @desc "Get all regions"
+    field :regions, list_of(:region) do
+      resolve dataloader(Regions)
+    end
+
+    @desc "Get a region"
+    field :region, :region do
+      arg :name, non_null(:string)
+      resolve dataloader(Regions)
     end
   end
 
@@ -40,13 +51,16 @@ defmodule CovidWeb.Schema do
     field :population, :integer
 
     field :regions, list_of(:region) do
-      resolve(dataloader(Regions))
+      resolve dataloader(Regions, :from_country, args: %{})
     end
   end
 
   @desc "A region"
   object :region do
     field :name, :string
-    field :country, non_null(:country)
+
+    field :country, non_null(:country) do
+      resolve dataloader(Countries, :from_region, args: %{})
+    end
   end
 end

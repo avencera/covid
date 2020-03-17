@@ -37,10 +37,23 @@ defmodule Covid.Database.Country do
     }
   end
 
+  def fetch({:from_region, %{}}, regions) do
+    countries = Database.get_countries_and_regions()
+
+    regions
+    |> Enum.reduce(%{}, fn region, acc ->
+      country =
+        countries
+        |> Enum.filter(fn {country, _regions} -> country.name == region.country_name end)
+        |> Enum.map(fn {country, _region} -> country end)
+        |> List.first()
+
+      Map.put(acc, region, country)
+    end)
+  end
+
   defp list_countries() do
-    Database.dump_confirmed()
-    |> Enum.map(fn e -> e.country end)
-    |> Enum.uniq()
-    |> Enum.map(&Country.new/1)
+    Database.get_countries_and_regions()
+    |> Enum.map(fn {country, _regions} -> country end)
   end
 end

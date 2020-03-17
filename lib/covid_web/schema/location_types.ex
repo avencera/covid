@@ -1,7 +1,5 @@
 defmodule CovidWeb.Schema.Location do
   use Absinthe.Schema.Notation
-  alias CovidWeb.Resolvers
-  alias Covid.Database.Country.Region
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 

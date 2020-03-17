@@ -37,13 +37,6 @@ defmodule Covid.Database.Country do
     }
   end
 
-  def fetch(batch, args) do
-    IO.inspect(batch, label: "BATCH")
-    IO.inspect(args, label: "ARGS")
-
-    args |> Enum.reduce(%{}, fn arg, accum -> Map.put(accum, arg, nil) end)
-  end
-
   defp list_countries() do
     Database.dump_confirmed()
     |> Enum.map(fn e -> e.country end)

@@ -11,7 +11,7 @@ defmodule CovidWeb.Schema do
 
   def context(ctx) do
     loader =
-      Dataloader.new()
+      Dataloader.new(timeout: :timer.seconds(15))
       |> Dataloader.add_source(Countries, Country.data())
       |> Dataloader.add_source(Regions, Region.data())
       |> Dataloader.add_source(Days, Day.data())

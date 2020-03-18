@@ -33,7 +33,7 @@ defmodule Covid.Predict.Exponential do
     predict(model, x)
   end
 
-  def predict({:error, msg}, _) do
+  def predict({:error, _msg}, _) do
     0
   end
 

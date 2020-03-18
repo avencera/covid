@@ -20,8 +20,6 @@ defmodule Covid.Database.Day.Cache do
   end
 
   def fetch_for_region(regions, fetcher) do
-    IO.inspect(regions)
-
     ConCache.get_or_store(
       __MODULE__,
       "fetch-for-regions-#{inspect(regions)}",

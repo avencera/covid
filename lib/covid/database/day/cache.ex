@@ -24,7 +24,7 @@ defmodule Covid.Database.Day.Cache do
     case ConCache.get(__MODULE__, key) do
       nil ->
         task = Task.Supervisor.async_nolink(Covid.CacheSupervisor.TaskSupervisor, fun)
-        results = Task.await(task, :timer.minutes(5))
+        results = Task.await(task, :timer.minutes(3))
         ConCache.put(__MODULE__, key, results)
         results
 

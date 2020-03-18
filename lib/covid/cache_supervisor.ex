@@ -9,6 +9,7 @@ defmodule Covid.CacheSupervisor do
   @impl true
   def init(:ok) do
     children = [
+      {Task.Supervisor, name: Covid.CacheSupervisor.TaskSupervisor},
       Covid.Predict.Cache,
       Covid.Database.Day.Cache
     ]

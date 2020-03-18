@@ -14,7 +14,7 @@ defmodule Covid.Database.Day.Cache do
   def fetch_for_country(countries, fetcher) do
     ConCache.get_or_store(
       __MODULE__,
-      "fetch-for-countries-#{inspect(countries)}",
+      {:fetch, countries},
       fetcher
     )
   end
@@ -22,7 +22,7 @@ defmodule Covid.Database.Day.Cache do
   def fetch_for_region(regions, fetcher) do
     ConCache.get_or_store(
       __MODULE__,
-      "fetch-for-regions-#{inspect(regions)}",
+      {:fetch, regions},
       fetcher
     )
   end

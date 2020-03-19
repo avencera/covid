@@ -10,7 +10,7 @@ defmodule CovidWeb.ErrorView do
     %{errors: %{detail: message}}
   end
 
-  def render("500.json", assigns) do
+  def render("500.json", _assigns) do
     %{errors: %{detail: "Internal server error"}}
   end
 

@@ -6,7 +6,6 @@ defmodule CovidWeb.Schema do
   alias Covid.Database.Country.Region
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
-
   import_types(Absinthe.Type.Custom)
 
   def context(ctx) do
